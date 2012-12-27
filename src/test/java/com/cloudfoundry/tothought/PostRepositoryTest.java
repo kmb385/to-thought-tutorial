@@ -15,6 +15,7 @@ import com.cloudfoundry.tothought.repositories.PostRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:META-INF/application-context.xml")
+//@ContextConfiguration(locations="classpath:META-INF/test-context.xml")
 public class PostRepositoryTest {
 
 	@Autowired
