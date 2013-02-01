@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -16,13 +18,25 @@ public class Post {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="POST_ID")
-	Integer postId;
+	private Integer postId;
 	
 	@Column(name="TITLE")
-	String title;
+	private String title;
 	
 	@Column(name="POST_DATE")
-	Date postDate;
+	private Date postDate;
+	
+	@OneToOne
+	@JoinColumn(name="POST_PART_ID")
+	private PostPart postPart;
+	
+	public PostPart getPostPart() {
+		return postPart;
+	}
+
+	public void setPostPart(PostPart postPart) {
+		this.postPart = postPart;
+	}
 
 	public Integer getPostId() {
 		return postId;

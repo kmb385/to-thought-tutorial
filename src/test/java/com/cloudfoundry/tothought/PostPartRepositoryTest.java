@@ -1,5 +1,6 @@
 package com.cloudfoundry.tothought;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.util.Date;
@@ -13,49 +14,49 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cloudfoundry.tothought.entities.Post;
 import com.cloudfoundry.tothought.entities.PostPart;
-import com.cloudfoundry.tothought.repositories.PostRepository;
+import com.cloudfoundry.tothought.repositories.PostPartRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 //@ContextConfiguration(locations="classpath:META-INF/application-context.xml")
 @ContextConfiguration(locations="classpath:META-INF/test-context.xml")
 @Transactional
-public class PostRepositoryTest {
+public class PostPartRepositoryTest {
 
 	@Autowired
-	PostRepository repository;
+	PostPartRepository repository;
 	
 	@Test
 	public void test() {
-		Post post = new Post();
-		post.setPostDate(new Date());
-		post.setTitle("First Post");
-		
-		repository.save(post);
-		
-		Post dbpost = repository.findOne(post.getPostId());
-		assertNotNull(dbpost);
-		System.out.println(dbpost.getTitle());
-	}
-	
-	@Test
-	public void insertTest(){
-		Post post = new Post();
-		post.setPostDate(new Date());
-		post.setTitle("First Post");
-		
 		PostPart postPart = new PostPart();
 		String body = "Hello";
 		postPart.setBody(body);
 		
-		post.setPostPart(postPart);
+		repository.save(postPart);
 		
-		repository.save(post);
+		PostPart dbPostPart = repository.findOne(postPart.getPostPartId());
+		assertNotNull(dbPostPart);
+		assertEquals(body, dbPostPart.getBody());
+	}
+	
+	@Test
+	public void insertTest(){
 		
-		Post dbpost = repository.findOne(post.getPostId());
-		assertNotNull(dbpost);
-		assertNotNull(dbpost.getPostPart());
-		System.out.println(dbpost.getTitle());
+		Post post = new Post();
+		post.setPostDate(new Date());
+		post.setTitle("First Post");
 
+		PostPart postPart = new PostPart();
+		String body = "Hello";
+		postPart.setBody(body);
+		
+		postPart.setPost(post);
+		
+		repository.save(postPart);
+		
+		PostPart dbPostPart = repository.findOne(postPart.getPostPartId());
+		assertNotNull(dbPostPart);
+		assertNotNull(dbPostPart.getPost());
+		assertEquals(body, dbPostPart.getBody());
 	}
 
 }
