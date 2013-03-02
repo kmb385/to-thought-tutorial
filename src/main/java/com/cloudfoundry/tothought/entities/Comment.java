@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -21,7 +23,11 @@ public class Comment {
 	
 	@Column(name="BODY")
 	private String body;
-
+	
+	@ManyToOne
+	@JoinColumn(name="POST_ID")
+	private Post post;
+	
 	public Integer getCommentId() {
 		return commentId;
 	}
@@ -44,6 +50,14 @@ public class Comment {
 
 	public void setBody(String body) {
 		this.body = body;
+	}
+
+	public Post getPost() {
+		return post;
+	}
+
+	public void setPost(Post post) {
+		this.post = post;
 	}
 
 	@Override
