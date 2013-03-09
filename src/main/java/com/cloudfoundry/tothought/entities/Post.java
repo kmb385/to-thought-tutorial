@@ -11,32 +11,47 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="POST")
+@Table(name = "POST")
 public class Post {
 
 	@Id
-	@GeneratedValue(strategy=GenerationType.AUTO)
-	@Column(name="POST_ID")
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	@Column(name = "POST_ID")
 	private Integer postId;
-	
-	@Column(name="TITLE")
+
+	@Column(name = "TITLE")
 	private String title;
-	
-	@Column(name="POST_DATE")
+
+	@Column(name = "POST_DATE")
 	private Date postDate;
-	
+
 	@OneToOne
-	@JoinColumn(name="POST_PART_ID")
+	@JoinColumn(name = "POST_PART_ID")
 	private PostPart postPart;
-	
-	@OneToMany(mappedBy="post", cascade=CascadeType.ALL)
+
+	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
 	private List<Comment> comments = new ArrayList<Comment>();
-	
+
+	@ManyToMany
+	@JoinTable(name = "POST_TAG", joinColumns = { @JoinColumn(name = "POST_ID") }, 
+		inverseJoinColumns = {@JoinColumn(name="TAG_ID")})
+	private List<Tag> tags = new ArrayList<Tag>();
+
+	public List<Tag> getTags() {
+		return tags;
+	}
+
+	public void setTags(List<Tag> tags) {
+		this.tags = tags;
+	}
+
 	public PostPart getPostPart() {
 		return postPart;
 	}
@@ -119,5 +134,5 @@ public class Post {
 			return false;
 		return true;
 	}
-	
+
 }

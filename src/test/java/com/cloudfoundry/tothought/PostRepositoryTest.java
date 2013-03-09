@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cloudfoundry.tothought.entities.Comment;
 import com.cloudfoundry.tothought.entities.Post;
 import com.cloudfoundry.tothought.entities.PostPart;
+import com.cloudfoundry.tothought.entities.Tag;
 import com.cloudfoundry.tothought.repositories.PostRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -29,15 +30,33 @@ public class PostRepositoryTest {
 	
 	@Test
 	public void test() {
+		String tagName = "Java";
+		String tagName2 = "Spring";
+		
+		Tag tag1 = new Tag();
+		Tag tag2 = new Tag();
+		
+		tag1.setName(tagName);
+		tag2.setName(tagName2);
+		
 		Post post = new Post();
 		post.setPostDate(new Date());
 		post.setTitle("First Post");
+		
+		post.getTags().add(tag1);
+		post.getTags().add(tag2);
 		
 		repository.save(post);
 		
 		Post dbpost = repository.findOne(post.getPostId());
 		assertNotNull(dbpost);
 		System.out.println(dbpost.getTitle());
+		
+		List<Tag> tags = dbpost.getTags();
+		
+		assertTrue(tags.size() > 1);
+		assertTrue(tags.contains(tag1));
+		assertTrue(tags.contains(tag2));
 	}
 	
 	@Test
