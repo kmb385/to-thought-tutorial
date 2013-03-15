@@ -1,6 +1,8 @@
 package com.cloudfoundry.tothought.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,13 +20,13 @@ public class Comment {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer commentId;
 	
-	@Column(name="AUTHOR")
-	private String author;
+	@Embedded
+	private Stamp stamp;
 	
 	@Column(name="BODY")
 	private String body;
 	
-	@ManyToOne
+	@ManyToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="POST_ID")
 	private Post post;
 	
@@ -34,14 +36,6 @@ public class Comment {
 
 	public void setCommentId(Integer commentId) {
 		this.commentId = commentId;
-	}
-
-	public String getAuthor() {
-		return author;
-	}
-
-	public void setAuthor(String author) {
-		this.author = author;
 	}
 
 	public String getBody() {
@@ -60,13 +54,20 @@ public class Comment {
 		this.post = post;
 	}
 
+	public Stamp getStamp() {
+		return stamp;
+	}
+
+	public void setStamp(Stamp stamp) {
+		this.stamp = stamp;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + ((author == null) ? 0 : author.hashCode());
 		result = prime * result + ((body == null) ? 0 : body.hashCode());
-		result = prime * result + ((commentId == null) ? 0 : commentId.hashCode());
+		result = prime * result + ((stamp == null) ? 0 : stamp.hashCode());
 		return result;
 	}
 
@@ -79,22 +80,18 @@ public class Comment {
 		if (getClass() != obj.getClass())
 			return false;
 		Comment other = (Comment) obj;
-		if (author == null) {
-			if (other.author != null)
-				return false;
-		} else if (!author.equals(other.author))
-			return false;
 		if (body == null) {
 			if (other.body != null)
 				return false;
 		} else if (!body.equals(other.body))
 			return false;
-		if (commentId == null) {
-			if (other.commentId != null)
+		if (stamp == null) {
+			if (other.stamp != null)
 				return false;
-		} else if (!commentId.equals(other.commentId))
+		} else if (!stamp.equals(other.stamp))
 			return false;
 		return true;
 	}
+	
 	
 }

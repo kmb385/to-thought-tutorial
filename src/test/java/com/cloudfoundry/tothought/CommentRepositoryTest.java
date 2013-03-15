@@ -10,16 +10,19 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cloudfoundry.tothought.entities.Comment;
 import com.cloudfoundry.tothought.entities.Post;
+import com.cloudfoundry.tothought.entities.Stamp;
 import com.cloudfoundry.tothought.repositories.CommentRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations="classpath:META-INF/application-context.xml")
-@ContextConfiguration(locations="classpath:META-INF/test-context.xml")
+@ContextConfiguration(locations="classpath:META-INF/application-context.xml")
+//@ContextConfiguration(locations="classpath:META-INF/test-context.xml")
 @Transactional
+@TransactionConfiguration(defaultRollback=false)
 public class CommentRepositoryTest {
 	
 	@Autowired
@@ -30,12 +33,21 @@ public class CommentRepositoryTest {
 		Post post = new Post();
 		post.setPostDate(new Date());
 		post.setTitle("This is a tutorial on One to Many Relationships");
+
+		final String body = "This is a small comment";
 		
 		final String author = "Kevin Bowersox";
-		final String body = "This is a small comment";
-		Comment comment = new Comment();
+		String email = "kmb385@gmail.com";
+		Date created = new Date();
+		
+		Stamp stamp = new Stamp();
+		stamp.setAuthor(author);
+		stamp.setCreatedDate(created);
+		stamp.setEmail(email);
 
-		comment.setAuthor(author);
+		Comment comment = new Comment();
+		
+		comment.setStamp(stamp);
 		comment.setBody(body);
 		comment.setPost(post);
 		
@@ -44,8 +56,8 @@ public class CommentRepositoryTest {
 		Comment dbComment = repository.findOne(comment.getCommentId());
 		assertNotNull(dbComment);
 		assertNotNull(dbComment.getPost());
-		assertEquals(author, dbComment.getAuthor());
 		assertEquals(body, dbComment.getBody());
+		assertEquals(author, dbComment.getStamp().getAuthor());
 	}
 
 }

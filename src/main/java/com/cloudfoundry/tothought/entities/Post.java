@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -22,7 +23,7 @@ import javax.persistence.Table;
 public class Post {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "POST_ID")
 	private Integer postId;
 
@@ -32,16 +33,18 @@ public class Post {
 	@Column(name = "POST_DATE")
 	private Date postDate;
 
-	@OneToOne
+	@Embedded
+	private Stamp stamp;
+
+	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "POST_PART_ID")
 	private PostPart postPart;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
 	private List<Comment> comments = new ArrayList<Comment>();
 
-	@ManyToMany
-	@JoinTable(name = "POST_TAG", joinColumns = { @JoinColumn(name = "POST_ID") }, 
-		inverseJoinColumns = {@JoinColumn(name="TAG_ID")})
+	@ManyToMany(cascade=CascadeType.ALL)
+	@JoinTable(name = "POST_TAG", joinColumns = { @JoinColumn(name = "POST_ID") }, inverseJoinColumns = { @JoinColumn(name = "TAG_ID") })
 	private List<Tag> tags = new ArrayList<Tag>();
 
 	public List<Tag> getTags() {
@@ -92,13 +95,21 @@ public class Post {
 		this.comments = comments;
 	}
 
+	public Stamp getStamp() {
+		return stamp;
+	}
+
+	public void setStamp(Stamp stamp) {
+		this.stamp = stamp;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((comments == null) ? 0 : comments.hashCode());
 		result = prime * result + ((postDate == null) ? 0 : postDate.hashCode());
-		result = prime * result + ((postId == null) ? 0 : postId.hashCode());
+		result = prime * result + ((stamp == null) ? 0 : stamp.hashCode());
 		result = prime * result + ((title == null) ? 0 : title.hashCode());
 		return result;
 	}
@@ -122,10 +133,10 @@ public class Post {
 				return false;
 		} else if (!postDate.equals(other.postDate))
 			return false;
-		if (postId == null) {
-			if (other.postId != null)
+		if (stamp == null) {
+			if (other.stamp != null)
 				return false;
-		} else if (!postId.equals(other.postId))
+		} else if (!stamp.equals(other.stamp))
 			return false;
 		if (title == null) {
 			if (other.title != null)
