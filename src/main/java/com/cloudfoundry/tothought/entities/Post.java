@@ -5,7 +5,9 @@ import java.util.Date;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -46,7 +48,12 @@ public class Post {
 	@ManyToMany(cascade=CascadeType.ALL)
 	@JoinTable(name = "POST_TAG", joinColumns = { @JoinColumn(name = "POST_ID") }, inverseJoinColumns = { @JoinColumn(name = "TAG_ID") })
 	private List<Tag> tags = new ArrayList<Tag>();
-
+	
+	@ElementCollection
+	@Column(name="URL")
+	@CollectionTable(name="POST_MENTION", joinColumns={@JoinColumn(name="POST_ID")})
+	private List<String> urls = new ArrayList<String>();
+	
 	public List<Tag> getTags() {
 		return tags;
 	}
@@ -101,6 +108,14 @@ public class Post {
 
 	public void setStamp(Stamp stamp) {
 		this.stamp = stamp;
+	}
+
+	public List<String> getUrls() {
+		return urls;
+	}
+
+	public void setUrls(List<String> urls) {
+		this.urls = urls;
 	}
 
 	@Override

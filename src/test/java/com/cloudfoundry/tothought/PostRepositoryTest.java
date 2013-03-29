@@ -33,6 +33,21 @@ public class PostRepositoryTest {
 	PostRepository repository;
 	
 	@Test
+	public void entityCollectionTest(){
+		Post post = repository.findOne(33);
+		int size = post.getUrls().size();
+		
+		assertTrue(size > 0);
+		
+		post.getUrls().add("http://tothought.cloudfoundry.com");
+		
+		repository.save(post);
+		
+		Post dbPost = repository.findOne(33);
+		assertEquals(size+1, dbPost.getUrls().size());
+	}
+	
+	@Test
 	public void test() {
 		String tagName = "Java";
 		String tagName2 = "Spring";
