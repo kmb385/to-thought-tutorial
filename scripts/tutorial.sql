@@ -55,4 +55,13 @@ CREATE TABLE `tag` (
   PRIMARY KEY (`TAG_ID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
 
+delimiter $$
+
+CREATE TABLE `post_mention` (
+  `POST_ID` int(11) NOT NULL,
+  `URL` varchar(200) NOT NULL,
+  PRIMARY KEY (`POST_ID`,`URL`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8$$
+
+
 
