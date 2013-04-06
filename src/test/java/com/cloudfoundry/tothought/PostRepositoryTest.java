@@ -1,8 +1,12 @@
 package com.cloudfoundry.tothought;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -27,6 +31,9 @@ public class PostRepositoryTest {
 	@Autowired
 	PostRepository repository;
 	
+	@PersistenceContext
+	EntityManager entityManager;
+	
 	@Test
 	public void orderTest(){
 		List<Comment> comments = new ArrayList<Comment>();
@@ -40,11 +47,25 @@ public class PostRepositoryTest {
 			stamp.setAuthor("Kevin Bowersox");
 			stamp.setCreatedDate(new Date(113, 01,x));
 			
+			comment.setBody(x + " Test ");
 			comment.setStamp(stamp);
+			comment.setPost(post);
 			comments.add(comment);
 		}
 		
 		post.setComments(comments);
 		repository.save(post);
+		
+		entityManager.refresh(post);
+		
+		Post dbPost = repository.findOne(post.getPostId());
+		List<Comment> dbcomments = dbPost.getComments();
+		
+		SimpleDateFormat format = new  SimpleDateFormat("MM/dd/yyyy");
+		for(Comment dbComment: dbcomments){
+			System.out.println(dbComment.getBody());
+			System.out.println(format.format(dbComment.getStamp().getCreatedDate()));
+		}
 	}
+	
 }

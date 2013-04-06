@@ -45,7 +45,7 @@ public class Post {
 	private PostPart postPart;
 
 	@OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
-	@OrderBy("body DESC")
+	@OrderBy("CREATED_DT ASC")
 	private List<Comment> comments = new LinkedList<Comment>();
 
 	@ManyToMany(cascade=CascadeType.ALL)
