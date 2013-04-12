@@ -24,21 +24,8 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "POST")
-public class Post {
+public class Post extends AbstractPost{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "POST_ID")
-	private Integer postId;
-
-	@Column(name = "TITLE")
-	private String title;
-
-	@Column(name = "POST_DATE")
-	private Date postDate;
-
-	@Embedded
-	private Stamp stamp;
 
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name = "POST_PART_ID")
@@ -73,29 +60,6 @@ public class Post {
 		this.postPart = postPart;
 	}
 
-	public Integer getPostId() {
-		return postId;
-	}
-
-	public void setPostId(Integer postId) {
-		this.postId = postId;
-	}
-
-	public String getTitle() {
-		return title;
-	}
-
-	public void setTitle(String title) {
-		this.title = title;
-	}
-
-	public Date getPostDate() {
-		return postDate;
-	}
-
-	public void setPostDate(Date postDate) {
-		this.postDate = postDate;
-	}
 
 	public List<Comment> getComments() {
 		return comments;
@@ -103,14 +67,6 @@ public class Post {
 
 	public void setComments(List<Comment> comments) {
 		this.comments = comments;
-	}
-
-	public Stamp getStamp() {
-		return stamp;
-	}
-
-	public void setStamp(Stamp stamp) {
-		this.stamp = stamp;
 	}
 
 	public List<String> getUrls() {
