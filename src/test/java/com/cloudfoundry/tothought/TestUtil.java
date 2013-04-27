@@ -22,7 +22,8 @@ public class TestUtil {
 			"This is a post about Spring",
 			"This is a post about Hibernate",
 			"This is a post about Java",
-			"This is a post about PHP"
+			"This is a post about PHP",
+			"This is a secret post"
 	};
 	
 	static String [] bodies = {
