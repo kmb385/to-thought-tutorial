@@ -1,7 +1,6 @@
 package com.cloudfoundry.tothought.entities;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -9,14 +8,12 @@ import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.NamedQueries;
+import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.OrderBy;
@@ -24,10 +21,21 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "POST")
-public class Post extends AbstractPost{
+@NamedQueries(value = {
+		@NamedQuery(name = "Post.findPosts", query = "select p from Post p"),
+		@NamedQuery(name = "Post.teaser", query = "select " +
+				"p.title, p.stamp.author, pp.body " +
+				"from Post p join p.postPart pp"),
+		@NamedQuery(name = "Post.teaser.constructor", query = "select " +
+				"NEW com.cloudfoundry.tothought.Teaser(p.title, p.stamp.author, " +
+				"SUBSTRING(pp.body, 1,200)) " +
+				"from Post p join p.postPart pp" +
+				" where p.stamp.author like :name")
+		
+})
+public class Post extends AbstractPost {
 
-
-	@OneToOne(cascade=CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "POST_PART_ID")
 	private PostPart postPart;
 
@@ -35,15 +43,15 @@ public class Post extends AbstractPost{
 	@OrderBy("CREATED_DT ASC")
 	private List<Comment> comments = new LinkedList<Comment>();
 
-	@ManyToMany(cascade=CascadeType.ALL)
+	@ManyToMany(cascade = CascadeType.ALL)
 	@JoinTable(name = "POST_TAG", joinColumns = { @JoinColumn(name = "POST_ID") }, inverseJoinColumns = { @JoinColumn(name = "TAG_ID") })
 	private List<Tag> tags = new ArrayList<Tag>();
-	
+
 	@ElementCollection
-	@Column(name="URL")
-	@CollectionTable(name="POST_MENTION", joinColumns={@JoinColumn(name="POST_ID")})
+	@Column(name = "URL")
+	@CollectionTable(name = "POST_MENTION", joinColumns = { @JoinColumn(name = "POST_ID") })
 	private List<String> urls = new ArrayList<String>();
-	
+
 	public List<Tag> getTags() {
 		return tags;
 	}
@@ -59,7 +67,6 @@ public class Post extends AbstractPost{
 	public void setPostPart(PostPart postPart) {
 		this.postPart = postPart;
 	}
-
 
 	public List<Comment> getComments() {
 		return comments;
