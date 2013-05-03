@@ -27,11 +27,11 @@ public class TestUtil {
 	};
 	
 	static String [] bodies = {
-		"JPA is a great technology",
-		"Spring is a great framework",
-		"Hibernate is an awesome framework",
-		"Java is a strongly typed language",
-		"PHP is..."
+		"JPA is a great technology  JPA is a great technology  JPA is a great technology  JPA is a great technology  JPA is a great technology  JPA is a great technology  JPA is a great technology  JPA is a great technology  JPA is a great technology  JPA is a great technology ",
+		" Spring is a great framework  Spring is a great framework  Spring is a great framework  Spring is a great framework  Spring is a great framework  Spring is a great framework  Spring is a great framework  Spring is a great framework  Spring is a great framework  Spring is a great framework ",
+		" Hibernate is an awesome framework  Hibernate is an awesome framework  Hibernate is an awesome framework  Hibernate is an awesome framework  Hibernate is an awesome framework  Hibernate is an awesome framework  Hibernate is an awesome framework ",
+		" Java is a strongly typed language  Java is a strongly typed language  Java is a strongly typed language  Java is a strongly typed language  Java is a strongly typed language  Java is a strongly typed language  Java is a strongly typed language  Java is a strongly typed language  Java is a strongly typed language ",
+		" PHP is...  PHP is...  PHP is...  PHP is...  PHP is...  PHP is...  PHP is...  PHP is...  PHP is...  PHP is...  PHP is...  PHP is...  PHP is...  PHP is...  PHP is... "
 	};
 	
 	static String[] authors = {
