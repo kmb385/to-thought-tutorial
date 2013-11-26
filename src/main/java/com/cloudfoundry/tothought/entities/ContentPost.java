@@ -1,11 +1,13 @@
 package com.cloudfoundry.tothought.entities;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
 @Table(name="POST")
+@DiscriminatorValue("CONTENT")
 public class ContentPost extends AbstractPost {
 
 	@Column(name="CONTENT_URL")

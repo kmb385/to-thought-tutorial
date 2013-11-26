@@ -7,6 +7,7 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorValue;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
@@ -33,6 +34,7 @@ import javax.persistence.Table;
 				" where p.stamp.author like :name")
 		
 })
+@DiscriminatorValue(value="REGULAR")
 public class Post extends AbstractPost {
 
 	@OneToOne(cascade = CascadeType.ALL)

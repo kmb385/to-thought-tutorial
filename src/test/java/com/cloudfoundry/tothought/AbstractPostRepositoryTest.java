@@ -17,15 +17,24 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cloudfoundry.tothought.entities.ContentPost;
 import com.cloudfoundry.tothought.entities.Post;
 import com.cloudfoundry.tothought.entities.PostPart;
+import com.cloudfoundry.tothought.entities.Series;
+import com.cloudfoundry.tothought.repositories.AbstractPostRepository;
 import com.cloudfoundry.tothought.repositories.ContentPostRepository;
 import com.cloudfoundry.tothought.repositories.PostRepository;
+import com.cloudfoundry.tothought.repositories.SeriesRepository;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations="classpath:META-INF/application-context.xml")
 @TransactionConfiguration(defaultRollback=false)
 @Transactional
 public class AbstractPostRepositoryTest {
-
+	
+	@Autowired
+	SeriesRepository sRepository;
+	
+	@Autowired
+	AbstractPostRepository repository;
+	
 	@Autowired
 	PostRepository pRepository;
 	
@@ -37,6 +46,7 @@ public class AbstractPostRepositoryTest {
 	
 	@Test
 	public void insertPost() {
+		Series series = sRepository.findOne(1);
 		Post post = new Post();
 		final String title = "This is the regular post";
 		post.setTitle(title);
@@ -44,10 +54,12 @@ public class AbstractPostRepositoryTest {
 		PostPart postPart = new PostPart();
 		postPart.setBody("this is a test");
 		
+		post.setSeries(series);
+		
 		post.setPostPart(postPart);
 		postPart.setPost(post);
 		
-		pRepository.save(post);
+		repository.save(post);
 		
 		Post dbPost = pRepository.findOne(post.getPostId());
 		assertNotNull(dbPost);
@@ -61,14 +73,10 @@ public class AbstractPostRepositoryTest {
 		post.setContentUrl(contentUrl);
 		post.setTitle("This is a content post");
 		
-		cRepository.save(post);
+		repository.save(post);
 		
 		ContentPost cPost = cRepository.findOne(post.getPostId());
 		assertNotNull(cPost);
 		assertEquals(contentUrl, cPost.getContentUrl());
-		
-		
-		
-
 	}
 }

@@ -3,13 +3,23 @@ package com.cloudfoundry.tothought.entities;
 import java.util.Date;
 
 import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.DiscriminatorType;
 import javax.persistence.Embedded;
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
-@MappedSuperclass
+@Entity
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@Table(name="POST")
+@DiscriminatorColumn(name="POST_TYPE", discriminatorType=DiscriminatorType.STRING)
 public abstract class AbstractPost {
 
 	@Id
@@ -25,6 +35,10 @@ public abstract class AbstractPost {
 
 	@Embedded
 	protected Stamp stamp;
+
+	@ManyToOne
+	@JoinColumn(name = "SERIES_ID")
+	private Series series;
 
 	public Integer getPostId() {
 		return postId;
@@ -56,6 +70,14 @@ public abstract class AbstractPost {
 
 	public void setStamp(Stamp stamp) {
 		this.stamp = stamp;
+	}
+
+	public Series getSeries() {
+		return series;
+	}
+
+	public void setSeries(Series series) {
+		this.series = series;
 	}
 
 }

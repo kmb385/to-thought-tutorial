@@ -68,4 +68,10 @@ public class PostRepositoryTest {
 		}
 	}
 	
+	@Test
+	public void findOneTest() {
+		Post post = repository.findOne(1234);
+		
+	}
+	
 }
