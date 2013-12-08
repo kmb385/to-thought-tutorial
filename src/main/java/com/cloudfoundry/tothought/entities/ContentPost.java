@@ -6,8 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="POST")
-@DiscriminatorValue("CONTENT")
+@Table(name="st_content_post")
 public class ContentPost extends AbstractPost {
 
 	@Column(name="CONTENT_URL")

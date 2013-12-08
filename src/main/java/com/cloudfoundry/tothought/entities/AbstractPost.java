@@ -17,13 +17,11 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
-@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@Table(name="POST")
-@DiscriminatorColumn(name="POST_TYPE", discriminatorType=DiscriminatorType.STRING)
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
 public abstract class AbstractPost {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	@Column(name = "POST_ID")
 	protected Integer postId;
 

@@ -21,7 +21,7 @@ import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "POST")
+@Table(name = "st_post")
 @NamedQueries(value = {
 		@NamedQuery(name = "Post.findPosts", query = "select p from Post p"),
 		@NamedQuery(name = "Post.teaser", query = "select " +
@@ -34,7 +34,6 @@ import javax.persistence.Table;
 				" where p.stamp.author like :name")
 		
 })
-@DiscriminatorValue(value="REGULAR")
 public class Post extends AbstractPost {
 
 	@OneToOne(cascade = CascadeType.ALL)

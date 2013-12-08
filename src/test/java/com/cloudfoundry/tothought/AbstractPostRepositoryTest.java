@@ -3,6 +3,8 @@ package com.cloudfoundry.tothought;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.util.List;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -14,6 +16,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.transaction.TransactionConfiguration;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cloudfoundry.tothought.entities.AbstractPost;
 import com.cloudfoundry.tothought.entities.ContentPost;
 import com.cloudfoundry.tothought.entities.Post;
 import com.cloudfoundry.tothought.entities.PostPart;
@@ -78,5 +81,12 @@ public class AbstractPostRepositoryTest {
 		ContentPost cPost = cRepository.findOne(post.getPostId());
 		assertNotNull(cPost);
 		assertEquals(contentUrl, cPost.getContentUrl());
+	}
+	
+	@Test
+	public void findAllTest() {
+		List<AbstractPost> posts = repository.findAll();
+		System.out.println("Look HERE ---------------");
+		assertNotNull(posts);
 	}
 }
