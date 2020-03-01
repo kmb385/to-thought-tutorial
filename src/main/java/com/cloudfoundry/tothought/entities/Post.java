@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-//JPA Entities
 @Entity
 @Table(name="POST")
 public class Post {
