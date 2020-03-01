@@ -1,16 +1,5 @@
-#test12
-#test11
-#test10
-#test8
-#test7
-#test6
 /target
 /bin
 *.class
 .settings
-#some change
-#another
-#test2
-#test3
-#test5
-#test9
+#files to exclude
