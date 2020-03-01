@@ -2,3 +2,4 @@
 /bin
 *.class
 .settings
+#files to exclude
